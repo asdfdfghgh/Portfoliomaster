@@ -1,5 +1,10 @@
 export type ProjectVisual = { src: string; alt: string; caption: string };
 export type ProjectMaterial = { label: string; href: string; detail?: string };
+export type ProjectStorySection = {
+  heading: string;
+  text: string;
+  visual?: ProjectVisual;
+};
 export type PortfolioProject = {
   slug: string;
   number: string;
@@ -14,31 +19,53 @@ export type PortfolioProject = {
   tags: string[];
   visuals: ProjectVisual[];
   materials: ProjectMaterial[];
+  materialsTitle?: string;
+  storySections?: ProjectStorySection[];
   caveat?: string;
 };
 
 export const projects: PortfolioProject[] = [
   {
     slug: "exoplanet-atmosphere-surrogates", number: "01", category: "M.Sc. thesis · Computational astrophysics · 2025–26",
-    title: "Surrogate models for exoplanet atmospheres",
-    summary: "Testing whether compact machine-learning models can reproduce detailed disequilibrium chemistry calculations for the hot Jupiter HD 189733b.",
+    title: "Retrieving Disequilibrium Chemical Abundances of Exoplanets using Machine Learning",
+    summary: "A physics-based hot-Jupiter disequilibrium-chemistry framework paired with Autoencoder and LSTM surrogates for atmospheric retrieval and parameter estimation.",
     cover: "/images/cover-exoplanet.webp", coverAlt: "Generated illustration of a giant exoplanet above its glowing atmosphere",
     overview: [
-      "This thesis studies disequilibrium chemistry in the atmosphere of HD 189733b, where vertical transport and photochemistry can shift molecular abundances away from local chemical equilibrium.",
-      "The goal is to explore machine-learning surrogates that approximate expensive atmospheric calculations while preserving a meaningful comparison to established chemistry tools.",
+      "This research develops a physics-based disequilibrium-chemistry framework for hot-Jupiter atmospheres, incorporating chemical kinetics, vertical mixing, and photochemistry. The supplied temperature–pressure profile and abundance figures document model inputs and outputs for HD 189733b.",
+      "Neural-network surrogate models built with Autoencoders and LSTM architectures are used to reproduce atmospheric abundance profiles and support faster atmospheric retrieval and parameter-estimation workflows.",
     ],
     approach: [
-      "Build atmospheric inputs from temperature-pressure profiles and physical parameters, then compare predicted abundance profiles against reference calculations.",
-      "Explore LSTM and autoencoder approaches for representing vertical structure and mapping the inputs to molecular mixing ratios. Validate against FastChem and VULCAN outputs.",
+      "Developed a physics-based disequilibrium chemistry framework for hot Jupiter atmospheres incorporating chemical kinetics, vertical mixing, and photochemistry.",
+      "Developed neural-network surrogate models using Autoencoders and LSTM architectures to accelerate atmospheric retrieval and parameter-estimation workflows.",
+      "Applied Scientific Machine Learning, surrogate modelling, numerical optimisation, and computational physics to reproduce atmospheric abundance profiles while reducing computational cost.",
+      "Benchmarked the framework against VULCAN and FastChem simulations for validation and performance evaluation.",
     ],
-    outcomes: ["A thesis-stage modelling and validation workflow focused on H₂O, CH₄, CO, and CO₂ profiles.", "The supplied plots document model architecture and comparison against VULCAN reference cases; they do not imply a published benchmark or completed retrieval system."],
-    tags: ["Scientific ML", "LSTM", "Autoencoders", "Atmospheric chemistry"],
+    outcomes: ["The supplied figures show equilibrium and vertically mixed abundance profiles, FastChem comparison cases at 1080 K and 1200 K, and surrogate-fidelity diagnostics on a VULCAN test set.", "The linked thesis and supporting documents provide the detailed methodology, figures, and project context."],
+    tags: ["Scientific ML", "LSTM", "Autoencoders", "Atmospheric retrieval", "Exoplanets"],
     visuals: [
-      { src: "/images/exoplanet-surrogate.webp", alt: "Surrogate model predictions compared with VULCAN reference profiles", caption: "Validation plots from the supplied thesis materials." },
-      { src: "/images/exoplanet-architecture.svg", alt: "Simplified workflow diagram for the exoplanet abundance surrogate", caption: "Redrawn from the supplied architecture figure for readability; FastChem and VULCAN are shown as validation references." },
+      { src: "/images/exoplanet-temperature-pressure-profile.webp", alt: "Temperature-pressure profile for the HD 189733b atmospheric model", caption: "Temperature–pressure profile used for the HD 189733b model." },
+      { src: "/images/exoplanet-equilibrium-profile.webp", alt: "Equilibrium CH4, CO, CO2, and H2 mixing-ratio profiles by pressure", caption: "Equilibrium CH₄, CO, CO₂, and H₂ mixing-ratio profiles." },
+      { src: "/images/exoplanet-vulcan-benchmark.webp", alt: "Vertical mixing abundance profiles comparing the custom chemistry solver with VULCAN", caption: "1D vertical-mixing benchmark: custom chemistry solver compared with VULCAN." },
+      { src: "/images/exoplanet-fastchem-1080k.webp", alt: "Chemical species time evolution compared with FastChem at 1080 kelvin", caption: "Time evolution of chemical species compared with FastChem at 1080 K." },
+      { src: "/images/exoplanet-fastchem-1200k.webp", alt: "Chemical species time evolution compared with FastChem at 1200 kelvin", caption: "Time evolution of chemical species compared with FastChem at 1200 K." },
+      { src: "/images/exoplanet-surrogate-fidelity.webp", alt: "VULCAN test-set surrogate fidelity plots with per-species RMSE, parity, and mixing-ratio profiles", caption: "Surrogate fidelity on the VULCAN test set: per-species RMSE, parity, and sample mixing-ratio profiles." },
+      { src: "/images/exoplanet-thesis-presentation.webp", alt: "Subhra presenting disequilibrium chemistry research to an audience", caption: "Presenting the disequilibrium-chemistry work." },
     ],
-    materials: [{ label: "View thesis PDF", href: "/materials/exoplanet-atmosphere-thesis.pdf", detail: "Thesis material supplied for the portfolio" }],
-    caveat: "The source thesis PDF is not published here; the figures are included as a concise project visual. Replace the thesis link with a public manuscript or repository when available.",
+    materialsTitle: "Thesis & supporting documentation",
+    materials: [
+      { label: "Master’s thesis", href: "/materials/exoplanet/masters-thesis.pdf", detail: "Machine Learning Surrogate Modelling of Disequilibrium Chemistry in Exoplanet Atmospheres · 79 pages" },
+      { label: "Machine-learning surrogate modelling report", href: "/materials/exoplanet/machine-learning-surrogate-modelling.pdf", detail: "Retrieving Disequilibrium Chemical Abundances of Exoplanets with Machine Learning · 39 pages" },
+      { label: "Supplementary disequilibrium chemistry document", href: "/materials/exoplanet/retrieving-disequilibrium-chemistry.pdf", detail: "22-page supplied document; its opening title page still contains generic template placeholders." },
+    ],
+    storySections: [
+      { heading: "Atmospheric structure", text: "The temperature–pressure profile defines the atmospheric layers used to study HD 189733b and provides physical context for the chemistry calculations.", visual: { src: "/images/exoplanet-temperature-pressure-profile.webp", alt: "Temperature-pressure profile for the HD 189733b atmospheric model", caption: "Model temperature as a function of pressure." } },
+      { heading: "Equilibrium chemistry", text: "The baseline abundance profiles track key carbon-bearing molecules and hydrogen through the atmosphere, before considering transport-driven disequilibrium.", visual: { src: "/images/exoplanet-equilibrium-profile.webp", alt: "Equilibrium CH4, CO, CO2, and H2 mixing-ratio profiles by pressure", caption: "Equilibrium CH₄, CO, CO₂, and H₂ mixing ratios across pressure levels." } },
+      { heading: "Vertical mixing benchmark", text: "Vertical transport can reshape species abundances. This comparison places the custom 1D solver alongside VULCAN reference profiles.", visual: { src: "/images/exoplanet-vulcan-benchmark.webp", alt: "Vertical mixing abundance profiles comparing the custom chemistry solver with VULCAN", caption: "Custom solver and VULCAN vertical-mixing profiles." } },
+      { heading: "FastChem comparisons", text: "The chemistry evolution plots compare model species against FastChem at two temperatures, 1080 K and 1200 K.", visual: { src: "/images/exoplanet-fastchem-1080k.webp", alt: "Chemical species time evolution compared with FastChem at 1080 kelvin", caption: "Species time evolution at 1080 K." } },
+      { heading: "A second temperature case", text: "The 1200 K case provides a second validation condition for comparing the model’s evolving chemical abundances with FastChem.", visual: { src: "/images/exoplanet-fastchem-1200k.webp", alt: "Chemical species time evolution compared with FastChem at 1200 kelvin", caption: "Species time evolution at 1200 K." } },
+      { heading: "Neural-network surrogate", text: "Autoencoder and LSTM surrogate models are assessed against VULCAN test data. The supplied diagnostics show per-species error, parity, and example abundance profiles.", visual: { src: "/images/exoplanet-surrogate-fidelity.webp", alt: "VULCAN test-set surrogate fidelity plots with per-species RMSE, parity, and mixing-ratio profiles", caption: "Surrogate fidelity: species RMSE, parity plot, and sample profiles." } },
+      { heading: "Research presentation", text: "Sharing the disequilibrium chemistry work and its modeling approach with an audience.", visual: { src: "/images/exoplanet-thesis-presentation.webp", alt: "Subhra presenting disequilibrium chemistry research to an audience", caption: "Presentation of the master’s thesis research." } },
+    ],
   },
   {
     slug: "care-load-forecasting", number: "02", category: "Unified Mentor · Forecasting · 2026",
@@ -70,23 +97,35 @@ export const projects: PortfolioProject[] = [
   },
   {
     slug: "predictive-irrigation", number: "03", category: "TIH-IoT Chanakya Fellowship · IIT Bombay · 2023–24",
-    title: "Predictive irrigation for low-cost agriculture",
-    summary: "A fellowship project exploring sensor-informed irrigation recommendations with Jain Irrigation, alongside published work on machine learning for sustainable agriculture.",
+    title: "Predictive Irrigation Recommendations",
+    summary: "An IoT-enabled, machine-learning irrigation decision system developed with Jain Irrigation during the IoT-Chanakya Fellowship (2023–24).",
     cover: "/images/cover-irrigation.webp", coverAlt: "Generated illustration of sustainable agriculture with smart irrigation sensors",
     overview: [
-      "As project lead, I worked on predictive irrigation with Jain Irrigation, combining environmental and IoT sensor data to support water-aware decisions.",
-      "The work connects an applied fellowship project with broader research on integrating IoT and machine learning into low-cost sustainable agriculture.",
+      "Over the 2023–24 IoT-Chanakya Fellowship, I led a team under the supervision of Dr. Subhakar Mishra. Jain Irrigation Systems Ltd. set us the challenge of designing a predictive irrigation system to optimize water use through data-driven decisions.",
+      "Open agricultural datasets were limited, so we collected our own measurements using a network of sensors. We trained a neural network on the resulting time-series data to forecast conditions and help decide when and how much to irrigate.",
+      "The project connected machine learning, IoT, and sustainable agriculture, and led to my first-author Elsevier chapter and a conference paper presented at Microsoft ICICBDA 2024 (Springer).",
     ],
-    approach: ["Use sensor and environmental context to inform irrigation decisions.", "A LinkedIn project post describes the model as showing potential to save up to 70% of water. This is a reported potential outcome, not an independently audited or universally transferable result."],
-    outcomes: ["Contributed to the Springer chapter on IoT4Irrigation and a first-author Elsevier chapter on predictive irrigation.", "The published workflow graphic below is from the supplied SpringerLink article assets."],
-    tags: ["IoT", "Predictive analytics", "Sustainable agriculture"],
-    visuals: [{ src: "/images/irrigation-publication-figure.webp", alt: "Workflow diagram from the IoT4Irrigation publication", caption: "Workflow figure from the supplied IoT4Irrigation article material." }],
+    approach: [
+      "Led development of machine-learning-based predictive irrigation models in collaboration with Jain Irrigation.",
+      "Developed IoT-enabled recommendation systems for intelligent irrigation decision support, with the project reporting potential to reduce water wastage by up to 70%.",
+      "Integrated environmental and sensor-based datasets for predictive irrigation.",
+      "Contributed to peer-reviewed research on AI-driven sustainable agriculture.",
+    ],
+    outcomes: ["The project reported potential water savings of up to 70%; this is a project-reported result rather than an independently audited field estimate.", "This work shaped my first publication and my continuing interest in practical, data-driven sustainability."],
+    tags: ["IoT", "Predictive irrigation", "Neural networks", "Sustainable agriculture"],
+    visuals: [],
+    storySections: [
+      { heading: "Building a sensor network", text: "With few open agricultural datasets available for the challenge, our team collected measurements using connected sensors and trial planting setups.", visual: { src: "/images/irrigation-sensor-trial.webp", alt: "Sensor-connected plant trays used in the predictive irrigation project", caption: "Sensor-connected planting setup for collecting project data." } },
+      { heading: "Instrumented growing plots", text: "Soil-moisture sensors and connected electronics supplied time-series observations for model development and irrigation recommendations.", visual: { src: "/images/irrigation-sensor-setup.webp", alt: "IoT sensors and electronics connected to experimental plant pots", caption: "IoT sensor and electronics setup across experimental pots." } },
+      { heading: "From measurements to irrigation decisions", text: "The workflow moves from crop and soil-moisture observations through network transfer and data preparation into model training and prediction, which informs an irrigation action.", visual: { src: "/images/irrigation-decision-workflow.webp", alt: "Workflow from crop and soil moisture sensing through model predictions to irrigation action", caption: "Project workflow: sensor data, preparation, model prediction, and irrigation action." } },
+    ],
     materials: [
-      { label: "Elsevier chapter", href: "https://doi.org/10.1016/B978-0-443-24139-0.00022-9", detail: "First author · Predictive Irrigation: Current Practice and Future Prospects" },
-      { label: "Springer chapter", href: "https://doi.org/10.1007/978-3-031-74701-4_24", detail: "Co-author · IoT4Irrigation" },
+      { label: "Elsevier chapter · first author", href: "https://lnkd.in/exgE48i8", detail: "Predictive Irrigation: Current Practice and Future Prospects" },
+      { label: "Microsoft ICICBDA 2024 paper · Springer", href: "https://lnkd.in/eDrKV6YE", detail: "Conference paper presented at ICICBDA 2024." },
+      { label: "Springer IoT4Irrigation chapter", href: "https://doi.org/10.1007/978-3-031-74701-4_24", detail: "Related peer-reviewed work on IoT and machine learning for sustainable agriculture." },
       { label: "Chanakya Fellowship certificate", href: "/materials/chanakya-fellowship-certificate.pdf" },
     ],
-    caveat: "The up-to-70% water-saving figure is reported in a LinkedIn project post and the supplied CV. Underlying measurement details were not included in the source materials reviewed for this site.",
+    caveat: "The up-to-70% water-wastage reduction is a project-reported potential outcome. It should not be read as an independently audited or universal field result.",
   },
   {
     slug: "wildfire-remote-sensing", number: "04", category: "Research internship · IIT Indore · 2024",
